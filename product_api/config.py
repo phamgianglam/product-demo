@@ -19,7 +19,9 @@ class Config(BaseSettings):
     @property
     def ASYNC_DATABASE_URL(self) -> AsyncPostgresDsn:
         # ASYNC_DATABASE_URL = self.DATABASE_URL.replace("postgresql://", "postgresql+asyncpg://")
-        ASYNC_DATABASE_URL = self.DATABASE_URL.replace("postgres://", "postgresql+asyncpg://")
+        ASYNC_DATABASE_URL = self.DATABASE_URL.replace(
+            "postgres://", "postgresql+asyncpg://"
+        )
         return ASYNC_DATABASE_URL
 
 

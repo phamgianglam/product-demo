@@ -15,8 +15,9 @@ BaseModel = declarative_base(MetaData())
 
 class Product(BaseModel):
     __tablename__ = "product"
-    id_: UUID = Column("id", sqlUUID(as_uuid=True),
-                       default=uuid4, primary_key=True)
+    id_: UUID = Column(
+        "id", sqlUUID(as_uuid=True), default=uuid4, primary_key=True
+    )
     name: str = Column(String, nullable=False, unique=True)
     description: str = Column(String, nullable=False, unique=False)
     price: int = Column(Integer, nullable=False)

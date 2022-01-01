@@ -1,0 +1,43 @@
+[tool.versioner]
+version-file = 'dvd_apis/_version.py'
+
+[tool.black]
+line-length = 79
+target-version = ['py38']
+include = '\.pyi?$'
+exclude = '''
+/(
+    \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | _build
+  | buck-out
+  | build
+  | dist
+  | venv
+  | migrations
+  | __pycache__
+  | \.env
+  | env
+  | blib2to3
+  | tests/data
+)/
+'''
+
+[tool.pytest.ini_options]
+addopts = "-vv --cov --cov-report term-missing --cov-report html"
+testpaths = ['tests']
+
+[tool.coverage.run]
+branch = true
+source = ['settings']
+
+[tool.coverage.report]
+fail_under = 90
+ignore_errors = true
+show_missing = true
+
+[tool.coverage.html]
+directory = 'coverage'
