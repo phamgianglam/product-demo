@@ -7,6 +7,7 @@ from product_api.utility.paging import PagingParam, count_query, paging_query
 from product_api.utility.searcher import SearcherParams, Seracher
 from ..schemas import ProductModel, ProductPostModel
 from ..model.models import Product
+from ..helper import update_filter_record
 
 
 async def create_resource(product: ProductPostModel, session: AsyncSession):
@@ -48,4 +49,5 @@ async def list_resource(price: str, search_param: SearcherParams, paging_param: 
 
     result = (await session.execute(paging_stmt)).scalars().all()
     count = (await session.execute(count_stmt)).scalars().one()
+    await update_filter_record(["abc"], "asc", "20-30")
     return result, count

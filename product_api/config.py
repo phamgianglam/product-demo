@@ -1,6 +1,5 @@
 from pydantic import BaseSettings
-from pydantic.networks import PostgresDsn
-from pydantic.networks import PostgresDsn
+from pydantic.networks import PostgresDsn, AnyHttpUrl
 
 DEFAULT_VERSION = "v1beta1"
 DEFAULT_PREFIX = "api"
@@ -15,6 +14,8 @@ class Config(BaseSettings):
     DATABASE_URL: PostgresDsn
     API_PREFIX: str = DEFAULT_PREFIX
     version: str = DEFAULT_VERSION
+
+    FILTER_RECORD_API: AnyHttpUrl
 
     @property
     def ASYNC_DATABASE_URL(self) -> AsyncPostgresDsn:
