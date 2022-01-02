@@ -27,7 +27,7 @@ class ProductPostModel(BaseModel):
 
 
 class ProductModel(BaseModel):
-    id_: UUID = Field(..., alias="id of product")
+    id_: UUID = Field(..., alias="id")
     name: str = Field(..., description="name of product")
     description: str = Field(..., description="description of product")
     price: int = Field(..., description="price of product")

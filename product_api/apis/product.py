@@ -1,10 +1,14 @@
 from os import error
+from re import search
 from uuid import UUID
 from fastapi import APIRouter, Depends, exceptions, HTTPException
 from fastapi import Response
-from typing import List
+from typing import List, Optional
 
 from fastapi.param_functions import Query
+from sqlalchemy.sql.operators import op
+
+from product_api.utility.searcher import SearcherParams
 
 from ..model.depend import create_session
 from ..schemas import ProductModel, ProductPostModel
@@ -32,15 +36,17 @@ async def create_product(
 @router.get("/", response_model=List[ProductModel], status_code=200)
 async def list_all_product(
     response: Response,
-    name=Query(None, description="name of product"),
-    params=Depends(PagingParam),
+    search_params=Depends(SearcherParams),
+    price: Optional[str] = Query(
+        None, description="price filter range. example: min-max"),
+    paging_params=Depends(PagingParam),
     session=Depends(create_session),
 ):
 
-    result, count = await ctrl.list_resource(name, params, session)
+    result, count = await ctrl.list_resource(price, search_params, paging_params, session)
 
     response.headers["X-total"] = str(count)
-    response.headers["X-page"] = str(params.page)
+    response.headers["X-page"] = str(paging_params.page)
     return result
 
 

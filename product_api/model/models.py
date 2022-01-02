@@ -10,7 +10,7 @@ from sqlalchemy import func
 from sqlalchemy import MetaData
 from sqlalchemy.orm import backref, declarative_base, lazyload, relationship
 
-BaseModel = declarative_base(MetaData())
+BaseModel = declarative_base()
 
 
 class Product(BaseModel):
