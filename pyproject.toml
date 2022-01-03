@@ -27,7 +27,7 @@ exclude = '''
 '''
 
 [tool.pytest.ini_options]
-addopts = "-vv --cov --cov-report term-missing --cov-report html"
+addopts = "-vv"
 testpaths = ['tests']
 
 [tool.coverage.run]

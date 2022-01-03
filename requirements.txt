@@ -5,3 +5,5 @@ asyncpg==0.24.0
 psycopg2==2.9.3
 httpx==0.21.1
 uvloop
+pytest
+pytest-asyncio

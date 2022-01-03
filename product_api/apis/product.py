@@ -1,12 +1,10 @@
-from os import error
-from re import search
 from uuid import UUID
-from fastapi import APIRouter, Depends, exceptions, HTTPException
+from fastapi import APIRouter, Depends
 from fastapi import Response
 from typing import List, Optional
 
 from fastapi.param_functions import Query
-from sqlalchemy.sql.operators import op
+from product_api.exception import ItemAlreadyExist, ItemDoesntExist
 
 from product_api.utility.searcher import SearcherParams
 
@@ -27,9 +25,7 @@ async def create_product(
     try:
         result = await ctrl.create_resource(series, session)
     except IntegrityError as exc:
-        raise HTTPException(
-            status_code=409, detail="given product is a duplicate"
-        )
+        raise ItemAlreadyExist("product already existed")
     return result
 
 
@@ -39,11 +35,13 @@ async def list_all_product(
     search_params=Depends(SearcherParams),
     price: Optional[str] = Query(
         None, description="price filter range. example: min-max"),
-    paging_params=Depends(PagingParam),
+    paging_params: PagingParam = Depends(PagingParam),
     session=Depends(create_session),
 ):
 
     result, count = await ctrl.list_resource(price, search_params, paging_params, session)
+    if len(result) == 0 and paging_params.page > 1:
+        raise ItemDoesntExist("requestd page unavailable")
 
     response.headers["X-total"] = str(count)
     response.headers["X-page"] = str(paging_params.page)
@@ -55,5 +53,5 @@ async def get_product(id: UUID, session=Depends(create_session)):
     try:
         result = await ctrl.get_resource(id, session)
     except NoResultFound as exc:
-        raise HTTPException(status_code=404, detail=f"product is not found")
+        raise ItemDoesntExist("Product is not exist")
     return result

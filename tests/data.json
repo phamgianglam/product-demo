@@ -1,0 +1,26 @@
+[
+    {
+        "name": "sample 1",
+        "description": "sample description",
+        "price": 10,
+        "date": "2022-01-03T14:08:36.978756"
+    },
+    {
+        "name": "sample 2",
+        "description": "description",
+        "price": 100,
+        "date": "2022-01-03T14:08:36.978756"
+    },
+    {
+        "name": "sample 3",
+        "description": "sample description",
+        "price": 150,
+        "date": "2022-01-03T14:08:36.978756"
+    },
+    {
+        "name": "vpn",
+        "description": "vpn description",
+        "price": 700,
+        "date": "2022-01-03T14:08:36.978756"
+    }
+]
