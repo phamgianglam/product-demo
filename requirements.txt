@@ -1,9 +1,9 @@
-fastapi[all]==0.70.1
+fastapi[all]==0.68.0
 sqlalchemy[mypy]==1.4.20
 alembic==1.6.5
-asyncpg==0.24.0
-psycopg2==2.9.3
-httpx==0.21.1
-uvloop
-pytest
-pytest-asyncio
+asyncpg==0.21.0
+psycopg2-binary==2.8.5
+httpx==0.18.1
+respx==0.17.1
+pytest==6.2.4
+pytest-asyncio==0.15.1

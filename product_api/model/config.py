@@ -8,6 +8,7 @@ engine = create_async_engine(
     future=True,
     pool_pre_ping=True,
 )
+
 async_session_factory = sessionmaker(
     autocommit=False,
     autoflush=False,
