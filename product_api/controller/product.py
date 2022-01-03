@@ -49,6 +49,8 @@ async def list_resource(price: str, search_param: SearcherParams, paging_param: 
 
     result = (await session.execute(paging_stmt)).scalars().all()
     count = (await session.execute(count_stmt)).scalars().one()
-    await update_filter_record(["abc"], "asc", "20-30")
-    print("here")
+    serch_term, sort_term = await searcher.collect_term()
+    
+    await update_filter_record(serch_term, sort_term, price)
+   
     return result, count
