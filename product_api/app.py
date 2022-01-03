@@ -1,8 +1,8 @@
 from fastapi import FastAPI
 from starlette.exceptions import HTTPException
-from product_api.config import config
-from product_api.apis import config_route
-from product_api.exception_handler import (
+from .config import config
+from .apis import config_route
+from .exception_handler import (
     handle_invalid_exception,
     handle_normal_exception,
 )

@@ -1,9 +1,10 @@
-from datetime import datetime
 import pytest
 import json
+from datetime import datetime
 from asyncio import current_task
+
 from fastapi.testclient import TestClient
-from sqlalchemy import future
+
 from sqlalchemy.engine import create_engine
 from sqlalchemy.ext.asyncio import (
     create_async_engine,

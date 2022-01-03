@@ -1,9 +1,10 @@
-from re import search
 import pytest
 import respx
 from datetime import datetime
-from fastapi.testclient import TestClient
+
 from httpx import Response
+from fastapi.testclient import TestClient
+
 from product_api.config import config
 
 

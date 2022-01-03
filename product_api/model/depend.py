@@ -1,4 +1,3 @@
-from .config import async_session_factory
 from asyncio import current_task
 from sqlalchemy.ext.asyncio import async_scoped_session
 

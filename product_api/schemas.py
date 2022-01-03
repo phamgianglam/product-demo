@@ -1,7 +1,8 @@
-from datetime import datetime, tzinfo
-from typing import List, Any, Optional
+from datetime import datetime
+from typing import Optional
 from uuid import UUID, uuid4
-from pydantic import BaseModel, Field, validator
+
+from pydantic import BaseModel, Field
 
 
 class ProductPostModel(BaseModel):

@@ -1,7 +1,9 @@
-from datetime import datetime
-from starlette.exceptions import HTTPException
 from typing import List
+from datetime import datetime
+
+from starlette.exceptions import HTTPException
 from httpx import AsyncClient
+
 from .config import config
 
 client = AsyncClient()

@@ -1,8 +1,10 @@
+import pytest
 from datetime import datetime
 from unittest.mock import patch
 from uuid import uuid4
-import pytest
+
 from sqlalchemy.exc import IntegrityError, NoResultFound
+
 from product_api.schemas import ProductPostModel
 from product_api.controller import product as ctrl
 from product_api.utility.paging import PagingParam

@@ -1,14 +1,10 @@
 from uuid import UUID, uuid4
-from typing import List
 from datetime import datetime
-from sqlalchemy.sql.schema import ForeignKey
+
+from sqlalchemy import Column, Index, func
 from sqlalchemy.sql.sqltypes import DateTime, Integer, String
-from datetime import datetime
-from sqlalchemy import Column, Index
 from sqlalchemy.dialects.postgresql import UUID as sqlUUID
-from sqlalchemy import func
-from sqlalchemy import MetaData
-from sqlalchemy.orm import backref, declarative_base, lazyload, relationship
+from sqlalchemy.orm import declarative_base
 
 BaseModel = declarative_base()
 

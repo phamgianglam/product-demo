@@ -1,16 +1,19 @@
-from re import search
 from uuid import UUID
+from typing import List, Tuple
+
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy.exc import IntegrityError
-from sqlalchemy import select, and_, or_
-from product_api.utility.paging import PagingParam, count_query, paging_query
-from product_api.utility.searcher import SearcherParams, Seracher
+from sqlalchemy import select, and_
+
 from ..schemas import ProductModel, ProductPostModel
 from ..model.models import Product
 from ..helper import update_filter_record
+from ..utility.searcher import SearcherParams, Seracher
+from ..utility.paging import PagingParam, count_query, paging_query
 
 
-async def create_resource(product: ProductPostModel, session: AsyncSession):
+async def create_resource(
+    product: ProductPostModel, session: AsyncSession
+) -> Product:
 
     new_series = Product(**product.dict(exclude_unset=True))
     session.add(new_series)
@@ -18,7 +21,7 @@ async def create_resource(product: ProductPostModel, session: AsyncSession):
     return new_series
 
 
-async def get_resource(id_: UUID, session: AsyncSession):
+async def get_resource(id_: UUID, session: AsyncSession) -> Product:
     stm = select(Product).where(Product.id_ == id_)
     result = (await session.execute(stm)).scalars().one()
     return result
@@ -29,7 +32,7 @@ async def list_resource(
     search_param: SearcherParams,
     paging_param: PagingParam,
     session: AsyncSession,
-):
+) -> Tuple[List[Product], int]:
     stmt = select(Product)
 
     if price is not None:

@@ -4,7 +4,7 @@ from fastapi import Query
 from sqlalchemy.future import select
 from sqlalchemy.sql import Select
 from sqlalchemy.sql.functions import func
-from sqlalchemy.sql.selectable import subquery
+
 
 DEFAULT_PAGE = 1
 DEFAULT_SIZE = 100

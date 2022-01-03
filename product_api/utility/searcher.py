@@ -4,7 +4,6 @@ from pydantic import BaseModel as Schema
 from sqlalchemy import or_
 from sqlalchemy.sql.expression import select
 from sqlalchemy.sql.selectable import Select
-from sqlalchemy.sql.sqltypes import String
 from ..model.models import BaseModel
 
 
