@@ -34,12 +34,15 @@ async def list_all_product(
     response: Response,
     search_params=Depends(SearcherParams),
     price: Optional[str] = Query(
-        None, description="price filter range. example: min-max"),
+        None, description="price filter range. example: min-max"
+    ),
     paging_params: PagingParam = Depends(PagingParam),
     session=Depends(create_session),
 ):
 
-    result, count = await ctrl.list_resource(price, search_params, paging_params, session)
+    result, count = await ctrl.list_resource(
+        price, search_params, paging_params, session
+    )
     if len(result) == 0 and paging_params.page > 1:
         raise ItemDoesntExist("requestd page unavailable")
 

@@ -24,10 +24,15 @@ async def get_resource(id_: UUID, session: AsyncSession):
     return result
 
 
-async def list_resource(price: str, search_param: SearcherParams, paging_param: PagingParam, session: AsyncSession):
+async def list_resource(
+    price: str,
+    search_param: SearcherParams,
+    paging_param: PagingParam,
+    session: AsyncSession,
+):
     stmt = select(Product)
 
-    if price:
+    if price is not None:
         price = price.split("-")
 
         if len(price) != 2:
@@ -40,17 +45,20 @@ async def list_resource(price: str, search_param: SearcherParams, paging_param: 
             raise ValueError("min value should not be greater than max")
 
         stmt = stmt.filter(
-            and_(Product.price >= price[0], Product.price <= price[1]))
+            and_(Product.price >= price[0], Product.price <= price[1])
+        )
 
     searcher = Seracher(search_param, Product, ProductModel, "name")
     stmt = await searcher.apply_searcher(stmt)
     count_stmt = await count_query(stmt)
-    paging_stmt = await paging_query(stmt, paging_param.page, paging_param.size)
+    paging_stmt = await paging_query(
+        stmt, paging_param.page, paging_param.size
+    )
 
     result = (await session.execute(paging_stmt)).scalars().all()
     count = (await session.execute(count_stmt)).scalars().one()
     serch_term, sort_term = await searcher.collect_term()
-    
+
     await update_filter_record(serch_term, sort_term, price)
-   
+
     return result, count

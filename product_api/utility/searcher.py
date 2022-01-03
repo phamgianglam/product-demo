@@ -15,7 +15,13 @@ class SearcherParams(Schema):
 
 
 class Seracher:
-    def __init__(self, params: SearcherParams, model: BaseModel, schema: Schema, default_field=None) -> None:
+    def __init__(
+        self,
+        params: SearcherParams,
+        model: BaseModel,
+        schema: Schema,
+        default_field=None,
+    ) -> None:
         self.search = params.search
         self.order = params.order
         self.schema = schema
@@ -25,7 +31,8 @@ class Seracher:
         else:
             self.df = default_field
         self.search_term = []
-        self.sort_term=None
+        self.sort_term = None
+
     async def _map_field(self, field: str) -> str:
         for model_key, model_field in self.schema.__fields__.items():
             if model_field.alias:
@@ -60,7 +67,7 @@ class Seracher:
             parts[0] = await self._map_field(parts[0])
             term = ":".join(parts)
             self.search_term.append(term)
-            
+
             attr = getattr(self.model, parts[0])
             filter.append(attr.ilike(f"%{parts[1]}%"))
 
@@ -90,7 +97,7 @@ class Seracher:
         if self.order:
             if len(parts) == 2:
                 order = parts[1].lower()
-        self.sort_term = ":".join([field,order])
+        self.sort_term = ":".join([field, order])
         order_clause = getattr(getattr(self.model, field), order)
         return order_clause
 
@@ -108,11 +115,10 @@ class Seracher:
 
         if filters:
             filters_expression = or_(*filters)
-            print(filters_expression)
-            print(self.stmt)
+
             self.stmt = self.stmt.filter(filters_expression)
         self.stm = self.stmt.order_by(order())
-        print(self.stmt)
+
         return self.stm
 
     async def collect_term(self):

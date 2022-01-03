@@ -22,8 +22,7 @@ class Product(BaseModel):
     description: str = Column(String, nullable=False, unique=False)
     price: int = Column(Integer, nullable=False)
     date: datetime = Column(
-        DateTime(timezone=True),
-        nullable=False,
+        DateTime(timezone=True), nullable=False,
     )
 
     __table_args__ = (Index("index_name", func.lower(name)),)
