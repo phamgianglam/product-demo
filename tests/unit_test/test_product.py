@@ -13,7 +13,7 @@ from product_api.utility.searcher import SearcherParams
 pytestmark = pytest.mark.asyncio
 
 
-async def test_create_product(session):
+async def test_create_product(async_session):
     product = ProductPostModel(
         name="example",
         description="description",
@@ -21,11 +21,11 @@ async def test_create_product(session):
         date=datetime.now(),
     )
 
-    result = await ctrl.create_resource(product, session)
+    result = await ctrl.create_resource(product, async_session)
     assert result.name == product.name
 
 
-async def test_create_product_duplicate(session):
+async def test_create_product_duplicate(async_session):
     product = ProductPostModel(
         name="example",
         description="description",
@@ -33,13 +33,13 @@ async def test_create_product_duplicate(session):
         date=datetime.now(),
     )
 
-    result = await ctrl.create_resource(product, session)
+    result = await ctrl.create_resource(product, async_session)
     assert result.name == product.name
     with pytest.raises(IntegrityError):
-        await ctrl.create_resource(product, session)
+        await ctrl.create_resource(product, async_session)
 
 
-async def test_get_product(session):
+async def test_get_product(async_session):
     product = ProductPostModel(
         name="example",
         description="description",
@@ -47,25 +47,25 @@ async def test_get_product(session):
         date=datetime.now(),
     )
 
-    result = await ctrl.create_resource(product, session)
+    result = await ctrl.create_resource(product, async_session)
     assert result.name == product.name
 
-    result = await ctrl.get_resource(result.id_, session)
+    result = await ctrl.get_resource(result.id_, async_session)
     assert result.name == product.name
 
 
-async def test_get_product_not_found(session):
+async def test_get_product_not_found(async_session):
     with pytest.raises(NoResultFound):
-        await ctrl.get_resource(uuid4(), session)
+        await ctrl.get_resource(uuid4(), async_session)
 
 
 @patch("product_api.controller.product.update_filter_record")
-async def test_get_all_data(mock_update_record, session, load_data):
+async def test_get_all_data(mock_update_record, async_session, load_data):
     search = SearcherParams(search=None, order=None, df=None)
     paging_param = PagingParam()
     mock_update_record.return_value = None
     result, count = await ctrl.list_resource(
-        None, search, paging_param, session
+        None, search, paging_param, async_session
     )
     assert count == 4
 
@@ -75,13 +75,13 @@ async def test_get_all_data(mock_update_record, session, load_data):
 )
 @patch("product_api.controller.product.update_filter_record")
 async def test_get_all_data_filter_by_price(
-    mock_update_record, price, result_count, session, load_data
+    mock_update_record, price, result_count, async_session, load_data
 ):
     search = SearcherParams(search=None, order=None, df=None)
     paging_param = PagingParam()
     mock_update_record.return_value = None
     result, count = await ctrl.list_resource(
-        price, search, paging_param, session
+        price, search, paging_param, async_session
     )
     assert count == result_count
 
@@ -91,23 +91,23 @@ async def test_get_all_data_filter_by_price(
 )
 @patch("product_api.controller.product.update_filter_record")
 async def test_get_all_data_filter_by_search(
-    mock_update_record, search, result_count, session, load_data
+    mock_update_record, search, result_count, async_session, load_data
 ):
     search = SearcherParams(search=search, order=None, df=None)
     paging_param = PagingParam()
     mock_update_record.return_value = None
     result, count = await ctrl.list_resource(
-        None, search, paging_param, session
+        None, search, paging_param, async_session
     )
     assert count == result_count
 
 
 @patch("product_api.controller.product.update_filter_record")
-async def test_get_all_data_no_found(mock_update_record, session, load_data):
+async def test_get_all_data_no_found(mock_update_record, async_session, load_data):
     search = SearcherParams(search=None, order=None, df=None)
     paging_param = PagingParam(page=2, size=100)
     mock_update_record.return_value = None
     result, count = await ctrl.list_resource(
-        None, search, paging_param, session
+        None, search, paging_param, async_session
     )
     assert result == []

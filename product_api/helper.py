@@ -15,6 +15,8 @@ MAX_PRICE = 1000
 async def update_filter_record(filter: List[str], sort: str, price: str):
     if price is None:
         price = f"{MIN_PRICE}-{MAX_PRICE}"
+    else: 
+        price = f"{price[0]}-{price[1]}"
     data = {
         "search": filter,
         "sort": sort,

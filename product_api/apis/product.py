@@ -1,10 +1,10 @@
 from uuid import UUID
-from typing import List, Optional
+from typing import List, Optional, Union
 
 from sqlalchemy.exc import IntegrityError, NoResultFound
 
 from fastapi import APIRouter, Depends
-from fastapi import Response
+from fastapi import Response, Request
 from fastapi.param_functions import Query
 from sqlalchemy.ext.asyncio.session import AsyncSession
 
@@ -48,7 +48,7 @@ async def create_product(
 async def list_all_product(
     response: Response,
     search_params=Depends(SearcherParams),
-    price: Optional[str] = Query(
+    price: Optional[Union[str,int]] = Query(
         None, description="price filter range. example: min-max"
     ),
     paging_params: PagingParam = Depends(PagingParam),
